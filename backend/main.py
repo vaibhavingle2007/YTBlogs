@@ -26,7 +26,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -62,8 +62,14 @@ async def root():
         "version": settings.VERSION,
         "environment": "development" if settings.is_development else "production",
         "youtube_api_configured": settings.has_youtube_api,
-        "openai_api_configured": settings.has_openai_api
+        "nebius_api_configured": settings.has_nebius_api,
+        "cors_origins": settings.CORS_ORIGINS
     }
+
+@app.options("/{path:path}")
+async def options_handler(path: str):
+    """Handle CORS preflight requests"""
+    return {"message": "OK"}
 
 @app.post("/api/video-info", response_model=VideoResponse)
 async def get_video_info(request: VideoRequest):

@@ -32,7 +32,13 @@ class Settings:
     NEBIUS_API_KEY: Optional[str] = os.getenv("NEBIUS_API_KEY")
     
     # CORS settings
-    CORS_ORIGINS: list = ["*"]  # In production, specify your frontend domain
+    CORS_ORIGINS: list = [
+        "http://localhost:3000",
+        "http://localhost:8080", 
+        "https://ytblogs.netlify.app",
+        "https://*.netlify.app",
+        "*"  # Allow all origins for development (remove in production)
+    ]
     
     # Application metadata
     APP_NAME: str = "YouTube to Blog Converter API"

@@ -40,11 +40,9 @@
     <meta name="theme-color" content="#3B82F6">
     <meta name="msapplication-TileColor" content="#3B82F6">
     
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="https://cdn.tailwindcss.com" as="style">
+    <!-- TailwindCSS Production Version -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.0/lib/tailwind.min.css">
     <link rel="preload" href="https://unpkg.com/lucide@latest/dist/umd/lucide.js" as="script">
-    
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
         .gradient-bg {
@@ -611,7 +609,7 @@
         // API Configuration
         const API_BASE_URL = window.location.hostname === 'localhost' 
             ? 'http://localhost:8000' 
-            : 'https://ytblogs-production.up.railway.app'; // Replace with your actual Railway URL when you get it
+            : 'https://ytblogs-production.up.railway.app';
 
         // State management
         let currentVideoData = null;
