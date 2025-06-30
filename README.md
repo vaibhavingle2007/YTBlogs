@@ -260,6 +260,6 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 **Made with ❤️ using [Bolt.new](https://bolt.new) during the World's Largest Hackathon**
 
-*Transforming video content into engaging blogs, one URL at a time* 🎥➡️📝
+*Transforming video content into engaging blogs, one URL at a time* 🎥➡️📰
 
 </div>
