@@ -1,9 +1,11 @@
 [build]
   # No build command needed for static HTML
   publish = "."
+  ignore = "requirements.txt"
 
 [build.environment]
-  # No environment variables needed for static deployment
+  # Explicitly set as static site
+  NODE_VERSION = "18"
 
 [[redirects]]
   # Redirect all routes to index.html for SPA behavior
