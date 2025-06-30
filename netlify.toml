@@ -1,22 +1,19 @@
 [build]
-  # No build command needed for static HTML
-  publish = "."
-  ignore = "requirements.txt"
+publish = "dist"
+ignore = "requirements.txt"
+command = "npm run build"
 
 [build.environment]
-  # Explicitly set as static site
-  NODE_VERSION = "18"
+NODE_VERSION = "18"
 
 [[redirects]]
-  # Redirect all routes to index.html for SPA behavior
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
 
+[context]
 [context.production]
-  # Production-specific settings
-  command = "echo 'Static site - no build needed'"
+command = "echo 'Static site - no build needed'"
 
 [context.deploy-preview]
-  # Deploy preview settings
-  command = "echo 'Static site - no build needed'" 
+command = "echo 'Static site - no build needed'"
