@@ -62,6 +62,40 @@
     <link rel="preload" href="https://unpkg.com/lucide@latest/dist/umd/lucide.js" as="script">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
+    <!-- Custom Animations -->
+    <style>
+        @keyframes slideIn {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOut {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes gentle-bounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .animate-gentle-bounce {
+            animation: gentle-bounce 3s ease-in-out infinite;
+        }
+    </style>
+    
     <!-- Suppress TailwindCSS development warnings in production -->
     <script>
         if (window.location.hostname !== 'localhost') {
@@ -471,6 +505,36 @@
                     
                     <!-- Actual Content -->
                     <div id="blogContent" class="p-6 max-h-96 overflow-y-auto prose prose-sm max-w-none"></div>
+                    
+                    <!-- Feedback Prompt (appears after blog generation) -->
+                    <div id="feedbackPrompt" class="hidden p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-t border-blue-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="flex -space-x-1">
+                                    <span class="text-2xl">⭐</span>
+                                    <span class="text-2xl">⭐</span>
+                                    <span class="text-2xl">⭐</span>
+                                    <span class="text-2xl">⭐</span>
+                                    <span class="text-2xl">⭐</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold text-gray-900">Love YT2Blog? Share your feedback!</p>
+                                    <p class="text-xs text-gray-600">Help us improve by sharing your experience</p>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <a href="mailto:kartikag119@gmail.com?subject=YT2Blog%20Feedback&body=Hi!%20I%20just%20used%20YT2Blog%20and%20wanted%20to%20share%20my%20feedback:%0A%0A[Please%20share%20your%20thoughts%2C%20suggestions%2C%20or%20issues%20here]%0A%0AThanks%20for%20creating%20this%20awesome%20tool!" 
+                                   class="inline-flex items-center px-3 py-2 rounded-lg text-sm font-medium bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 transition-all duration-200 transform hover:scale-105 shadow-md">
+                                    <i data-lucide="heart" class="h-4 w-4 mr-2"></i>
+                                    Send Feedback
+                                </a>
+                                <button onclick="hideFeedbackPrompt()" 
+                                        class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                                    <i data-lucide="x" class="h-4 w-4"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -507,7 +571,7 @@
     <footer class="bg-gray-900 text-white py-12 mt-16" id="about">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Main Footer Content -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
                 <!-- Brand Section -->
                 <div class="md:col-span-2">
                     <div class="flex items-center space-x-3 mb-4">
@@ -557,19 +621,75 @@
                 <div>
                     <h4 class="text-lg font-semibold mb-4">Connect</h4>
                     <div class="space-y-3">
+                        <a href="mailto:kartikag119@gmail.com" 
+                           class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="mail" class="h-4 w-4"></i>
+                            <span>Contact Us</span>
+                        </a>
+                        <a href="https://github.com/kartikey2001/YTBlogs" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="github" class="h-4 w-4"></i>
+                            <span>GitHub Repository</span>
+                        </a>
                         <a href="https://bolt.new" target="_blank" rel="noopener noreferrer" 
                            class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
                             <i data-lucide="external-link" class="h-4 w-4"></i>
                             <span>Bolt.new Platform</span>
                         </a>
-                        <a href="https://github.com/yourusername/youtube-to-blog-converter" target="_blank" rel="noopener noreferrer"
-                           class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
-                            <i data-lucide="github" class="h-4 w-4"></i>
-                            <span>GitHub Repository</span>
-                        </a>
                         <a href="#converter" class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
                             <i data-lucide="arrow-up" class="h-4 w-4"></i>
                             <span>Back to Top</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Resources & Help -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Resources</h4>
+                    <div class="space-y-3">
+                        <a href="https://youtu.be/T6sJ4HknTPQ" target="_blank" rel="noopener noreferrer" class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="play-circle" class="h-4 w-4"></i>
+                            <span>How to Use</span>
+                        </a>
+                        <a href="https://www.youtube.com/yt/about/" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="info" class="h-4 w-4"></i>
+                            <span>YouTube API</span>
+                        </a>
+                        <a href="https://studio.nebius.ai/" target="_blank" rel="noopener noreferrer"
+                           class="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors">
+                            <i data-lucide="cpu" class="h-4 w-4"></i>
+                            <span>Nebius AI Studio</span>
+                        </a>
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <i data-lucide="shield-check" class="h-4 w-4 text-green-500"></i>
+                            <span>Privacy First</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Legal & Support -->
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <i data-lucide="clock" class="h-4 w-4"></i>
+                            <span>24/7 Available</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <i data-lucide="zap" class="h-4 w-4 text-yellow-500"></i>
+                            <span>Fast Processing</span>
+                        </div>
+                        <div class="flex items-center space-x-2 text-gray-400">
+                            <i data-lucide="download" class="h-4 w-4"></i>
+                            <span>Free Downloads</span>
+                        </div>
+                        <a href="mailto:kartikag119@gmail.com?subject=YT2Blog%20Feedback&body=Hi!%20I%20just%20used%20YT2Blog%20and%20wanted%20to%20share%20my%20feedback:%0A%0A[Please%20share%20your%20thoughts%2C%20suggestions%2C%20or%20issues%20here]%0A%0AThanks%20for%20creating%20this%20awesome%20tool!" 
+                           class="group relative flex items-center space-x-2 p-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            <i data-lucide="message-circle" class="h-5 w-5 animate-pulse"></i>
+                            <span class="font-semibold">💬 Send Feedback</span>
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping"></div>
+                            <div class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></div>
                         </a>
                     </div>
                 </div>
@@ -605,6 +725,25 @@
             </div>
         </div>
     </footer>
+
+    <!-- Floating Feedback Button -->
+    <div class="fixed bottom-6 right-6 z-50">
+        <a href="mailto:kartikag119@gmail.com?subject=YT2Blog%20Feedback&body=Hi!%20I%20just%20used%20YT2Blog%20and%20wanted%20to%20share%20my%20feedback:%0A%0A[Please%20share%20your%20thoughts%2C%20suggestions%2C%20or%20issues%20here]%0A%0AThanks%20for%20creating%20this%20awesome%20tool!" 
+           class="group relative flex items-center justify-center w-14 h-14 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-110 animate-gentle-bounce">
+            <i data-lucide="message-circle" class="h-6 w-6"></i>
+            
+            <!-- Tooltip -->
+            <div class="absolute right-16 top-1/2 transform -translate-y-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none">
+                💬 Share Your Feedback!
+                <div class="absolute top-1/2 -right-2 transform -translate-y-1/2 w-0 h-0 border-l-8 border-l-gray-900 border-t-4 border-t-transparent border-b-4 border-b-transparent"></div>
+            </div>
+            
+            <!-- Notification Dot -->
+            <div class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-pulse flex items-center justify-center">
+                <span class="text-xs font-bold">!</span>
+            </div>
+        </a>
+    </div>
 
     <script>
         // Initialize Lucide icons
@@ -954,6 +1093,13 @@
                 // Show content with progressive loading
                 await updateBlogPreview(currentBlogContent, true);
                 
+                // Show feedback prompt after successful generation with a slight delay
+                setTimeout(() => {
+                    const feedbackPrompt = document.getElementById('feedbackPrompt');
+                    feedbackPrompt.classList.remove('hidden');
+                    feedbackPrompt.style.animation = 'slideIn 0.5s ease-out';
+                }, 2000);
+                
             } catch (error) {
                 console.error('Error processing video:', error);
                 
@@ -1162,6 +1308,15 @@
                 // Show new content with progressive loading
                 await updateBlogPreview(currentBlogContent, true);
                 
+                // Show feedback prompt after template generation
+                setTimeout(() => {
+                    const feedbackPrompt = document.getElementById('feedbackPrompt');
+                    if (feedbackPrompt) {
+                        feedbackPrompt.classList.remove('hidden');
+                        feedbackPrompt.style.animation = 'slideIn 0.5s ease-out';
+                    }
+                }, 1500);
+                
                 console.log(`✅ Successfully generated ${template} template content`);
                 
                 // Track template generation success
@@ -1247,6 +1402,33 @@
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+        });
+
+        // Feedback functions
+        function hideFeedbackPrompt() {
+            const feedbackPrompt = document.getElementById('feedbackPrompt');
+            feedbackPrompt.style.animation = 'slideOut 0.3s ease-in';
+            setTimeout(() => {
+                feedbackPrompt.style.display = 'none';
+            }, 300);
+            
+            // Track feedback prompt dismissal
+            trackEvent('feedback_prompt_dismissed', {
+                template: currentTemplate,
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        // Track feedback link clicks
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('a[href*="kartikag119@gmail.com"]')) {
+                trackEvent('feedback_clicked', {
+                    source: e.target.closest('#feedbackPrompt') ? 'prompt' : 
+                           e.target.closest('.fixed') ? 'floating_button' : 'footer',
+                    template: currentTemplate,
+                    timestamp: new Date().toISOString()
+                });
+            }
         });
 
         // Initialize validation state
