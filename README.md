@@ -1,6 +1,4 @@
 # 🎥 YouTube to Blog Converter - AI-Powered Content Transformation
-
-[![Made with Bolt](https://img.shields.io/badge/Made%20with-Bolt-blue)](https://bolt.new)
 [![Python](https://img.shields.io/badge/Python-3.8+-brightgreen)](https://python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Latest-teal)](https://fastapi.tiangolo.com/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -180,15 +178,6 @@ http://localhost:8000
 
 **Recommended**: Any modern browser with JavaScript enabled
 
-## 📋 Development Timeline ✅
-
-- [x] **Day 1-2**: Project setup & YouTube API integration
-- [x] **Day 3-4**: LLM service & blog generation logic
-- [x] **Day 5-6**: Frontend development & basic UI
-- [x] **Day 7-8**: Enhanced UX with progressive loading
-- [x] **Day 9-10**: Template system & caching implementation
-- [x] **Day 11-12**: Error handling & fallback mechanisms
-- [x] **Day 13-14**: Final polish & comprehensive testing
 
 ## 🔮 Future Roadmap
 
@@ -246,20 +235,10 @@ This hackathon project welcomes contributions! Here's how you can help:
 MIT License - see [LICENSE](LICENSE) file for details
 
 ## 🙏 Acknowledgments
-
-- **Bolt.new** - For hosting the world's largest hackathon and providing an incredible development platform
 - **Nebius AI Studio** - For powerful language model access
 - **FastAPI Team** - For the excellent async web framework
 - **YouTube/Google** - For comprehensive video platform APIs
 - **Open Source Community** - For amazing libraries like PyTube and youtube-transcript-api
-- **Hackathon Participants** - For inspiration and collaborative spirit
 
 ---
 
-<div align="center">
-
-**Made with ❤️ using [Bolt.new](https://bolt.new) during the World's Largest Hackathon**
-
-*Transforming video content into engaging blogs, one URL at a time* 🎥➡️📰
-
-</div>

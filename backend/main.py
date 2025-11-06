@@ -1,5 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from pydantic import BaseModel, HttpUrl
 import asyncio
 from typing import Optional
@@ -34,6 +36,9 @@ app.add_middleware(
 youtube_service = YouTubeService(api_key=settings.YOUTUBE_API_KEY)
 blog_generator = BlogGenerator()
 
+# Mount static files (for serving frontend assets)
+app.mount("/public", StaticFiles(directory="public"), name="public")
+
 class VideoRequest(BaseModel):
     url: HttpUrl
     template: str = "article"
@@ -54,8 +59,13 @@ class BlogResponse(BaseModel):
     word_count: int
 
 @app.get("/")
-async def root():
-    """Health check endpoint"""
+async def serve_frontend():
+    """Serve the main frontend HTML file"""
+    return FileResponse("index.html")
+
+@app.get("/api/status")
+async def api_status():
+    """API status endpoint"""
     return {
         "message": settings.APP_NAME, 
         "status": "active", 

@@ -21,7 +21,7 @@ class LLMService:
             api_key=settings.NEBIUS_API_KEY,
         )
         # Model specified in the user's example
-        self.model = "meta-llama/Meta-Llama-3.1-70B-Instruct"
+        self.model = "meta-llama/Llama-3.3-70B-Instruct"
         print("🤖 LLM Service Initialized successfully with Nebius AI Studio.")
 
     def generate_content(self, system_prompt: str, user_prompt: str) -> str:
