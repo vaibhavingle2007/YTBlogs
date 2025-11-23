@@ -32,134 +32,148 @@ class BlogGenerator:
         if template not in self.templates:
             raise ValueError(f"Unknown template: {template}")
         
-        # Create the system and user prompts using the appropriate method
         system_prompt, user_prompt = self.templates[template](video_data, transcript)
         
-        # Call the LLM service to generate the blog content
         return self.llm_service.generate_content(system_prompt, user_prompt)
 
     def _get_content_source(self, video_data: Dict[str, Any], transcript: Optional[str]) -> Tuple[str, str]:
         """Determines the best content source (transcript or description) to use for the prompt."""
         description = video_data.get('description', '')
-        # Use transcript if it's substantial, otherwise fall back to description.
         if transcript and len(transcript.strip()) > 100:
             return transcript, "video transcript"
         return description, "video description"
 
+    # --------------------------------------------------------
+    # ARTICLE PROMPT (Refined)
+    # --------------------------------------------------------
     def _create_article_prompt(self, video_data: Dict[str, Any], transcript: Optional[str]) -> Tuple[str, str]:
-        """Creates the system and user prompts for a standard article."""
         system_prompt = (
-            "You are an expert blog writer specializing in creating engaging, well-structured articles from video content. "
-            "Your tone should be informative yet accessible. You must use Markdown for formatting, including headings, "
-            "subheadings, bold text for emphasis, and bullet points or numbered lists where appropriate."
+            "You are an expert blog writer who turns video content into rich, well-structured, SEO-friendly articles. "
+            "Write with clarity, depth, and flow. Use Markdown formatting, including headings, subheadings, bold, "
+            "lists, and examples when useful. Maintain an informative but engaging tone throughout."
         )
         
         content_source, source_type = self._get_content_source(video_data, transcript)
 
         user_prompt = f"""
-        Please generate a high-quality blog article in Markdown format based on the following video information.
+Please generate a comprehensive blog article in Markdown format based on the video information below.
 
-        **Video Title:** {video_data.get('title')}
-        **Channel:** {video_data.get('channel_name')}
-        **Content Source (from {source_type}):**
-        ---
-        {content_source[:4000]}
-        ---
-        
-        **Instructions:**
-        1.  Create a compelling headline from the video title.
-        2.  Write a short, engaging introduction that hooks the reader and states the video's purpose.
-        3.  Analyze the provided content source and identify 3-5 main themes, topics, or key takeaways.
-        4.  For each key takeaway, create a well-defined section with a descriptive subheading. Elaborate on each point, providing context and explanation.
-        5.  Write a thoughtful conclusion that summarizes the main points and provides a final thought for the reader.
-        6.  Ensure the entire output is a single, complete blog post in Markdown format. Do not include any of your own commentary, preamble, or postamble.
-        """
+**Video Title:** {video_data.get('title')}
+**Channel:** {video_data.get('channel_name')}
+**Content Source (from {source_type}):**
+---
+{content_source[:4000]}
+---
+
+**Instructions:**
+1. Create a compelling headline inspired by the video title.
+2. Write an introduction that explains the topic, why it matters, and what readers will learn.
+3. Identify the 3–6 main themes or takeaways from the content.
+4. For each theme, create a detailed section with a descriptive subheading. Expand clearly with explanations, insights, and helpful context.
+5. Add examples or clarifications when they improve reader understanding.
+6. Conclude with a meaningful summary and final insight.
+7. Produce a polished Markdown article with no meta commentary.
+"""
         return system_prompt, user_prompt
 
+    # --------------------------------------------------------
+    # TUTORIAL PROMPT (Refined)
+    # --------------------------------------------------------
     def _create_tutorial_prompt(self, video_data: Dict[str, Any], transcript: Optional[str]) -> Tuple[str, str]:
-        """Creates the system and user prompts for a tutorial."""
         system_prompt = (
-            "You are a technical writer who excels at creating clear, step-by-step tutorials from video content. "
-            "Your goal is to make complex processes easy to follow. You must use Markdown for formatting, especially "
-            "numbered lists for steps, and code blocks for any code examples."
+            "You are a technical writer who creates clear, structured, deeply detailed tutorials from video content. "
+            "Write step-by-step, with explanations that make each step easy to follow. Use Markdown formatting, "
+            "numbered steps, subheadings, and code blocks when helpful."
         )
         
         content_source, source_type = self._get_content_source(video_data, transcript)
 
         user_prompt = f"""
-        Please generate a step-by-step tutorial in Markdown format based on the following video information.
+Please generate a detailed step-by-step tutorial in Markdown format using the information below.
 
-        **Video Title:** {video_data.get('title')}
-        **Channel:** {video_data.get('channel_name')}
-        **Content Source (from {source_type}):**
-        ---
-        {content_source[:4000]}
-        ---
-        
-        **Instructions:**
-        1.  Create a clear, action-oriented headline.
-        2.  Write a brief overview of what the tutorial covers and what the user will learn.
-        3.  If applicable, list any prerequisites (e.g., software, prior knowledge).
-        4.  Analyze the content source and break down the process into a logical sequence of numbered steps.
-        5.  For each step, provide a clear heading and a concise explanation of the actions to take.
-        6.  Conclude with a summary of what was accomplished.
-        7.  Ensure the entire output is a single, complete tutorial in Markdown format.
-        """
+**Video Title:** {video_data.get('title')}
+**Channel:** {video_data.get('channel_name')}
+**Content Source (from {source_type}):**
+---
+{content_source[:4000]}
+---
+
+**Instructions:**
+1. Create an action-focused headline.
+2. Write an overview explaining what the tutorial teaches and the final result.
+3. Add prerequisites if necessary (tools, software, knowledge).
+4. Break the process into a sequence of detailed, logical steps.
+5. For each step:
+   - Add a subheading.
+   - Explain what to do and why it matters.
+   - Add warnings, notes, or tips where useful.
+   - Include code blocks if applicable.
+6. Conclude with what the user accomplished and optional next steps.
+7. Output the whole tutorial in clean Markdown.
+"""
         return system_prompt, user_prompt
 
+    # --------------------------------------------------------
+    # REVIEW PROMPT (Refined)
+    # --------------------------------------------------------
     def _create_review_prompt(self, video_data: Dict[str, Any], transcript: Optional[str]) -> Tuple[str, str]:
-        """Creates the system and user prompts for a review."""
         system_prompt = (
-            "You are a critical reviewer who writes balanced and insightful reviews of products, services, or media shown in videos. "
-            "Your writing should be objective and well-supported. Use Markdown for structure, such as headings for different review criteria (e.g., Pros, Cons)."
+            "You are a professional reviewer who writes balanced, in-depth evaluations of products, tools, or content "
+            "explained in videos. Your reviews should feel structured, fair, and insightful. Use Markdown formatting, "
+            "with sections like Overview, Pros, Cons, Performance, and Final Verdict."
         )
 
         content_source, source_type = self._get_content_source(video_data, transcript)
 
         user_prompt = f"""
-        Please generate a detailed review in Markdown format based on the following video.
+Please generate a detailed and balanced review in Markdown format based on the video content.
 
-        **Video Title:** {video_data.get('title')}
-        **Channel:** {video_data.get('channel_name')}
-        **Content Source (from {source_type}):**
-        ---
-        {content_source[:4000]}
-        ---
-        
-        **Instructions:**
-        1.  Create a headline for the review.
-        2.  Start with a summary of the item being reviewed.
-        3.  Analyze the content to identify the key positive aspects (Pros) and negative aspects (Cons). Present these in bulleted lists under respective subheadings.
-        4.  Include a section for your 'Verdict' or 'Final Thoughts'.
-        5.  Assign a rating out of 5 stars if appropriate.
-        6.  The final output must be a single, complete review in Markdown format.
-        """
+**Video Title:** {video_data.get('title')}
+**Channel:** {video_data.get('channel_name')}
+**Content Source (from {source_type}):**
+---
+{content_source[:4000]}
+---
+
+**Instructions:**
+1. Create a strong review headline.
+2. Begin with an overview of the product/topic and what it aims to achieve.
+3. Provide a deeper analysis covering features, performance, usability, strengths, and weaknesses.
+4. Add the following sections:
+   - **Pros:** meaningful positive points in bullets.
+   - **Cons:** realistic drawbacks, not generic filler.
+5. Include a **Final Verdict** summarizing who it is for and whether it is worth considering.
+6. Add a star rating out of 5 with a one-line justification.
+7. Output the result as a clean Markdown review.
+"""
         return system_prompt, user_prompt
 
+    # --------------------------------------------------------
+    # SUMMARY PROMPT (Refined)
+    # --------------------------------------------------------
     def _create_summary_prompt(self, video_data: Dict[str, Any], transcript: Optional[str]) -> Tuple[str, str]:
-        """Creates the system and user prompts for a summary."""
         system_prompt = (
-            "You are an efficient assistant skilled at summarizing video content into concise, easy-to-digest key points. "
-            "Your output should be structured and scannable. Use Markdown, especially bullet points."
+            "You are an efficient summarizer who extracts the most important insights from video content. "
+            "Write summaries that are short but meaningful, structured, and easy to skim. Use Markdown headings and bullet points."
         )
 
         content_source, source_type = self._get_content_source(video_data, transcript)
 
         user_prompt = f"""
-        Please generate a concise summary in Markdown format of the following video.
+Please produce a clear and slightly detailed summary in Markdown format.
 
-        **Video Title:** {video_data.get('title')}
-        **Channel:** {video_data.get('channel_name')}
-        **Content Source (from {source_type}):**
-        ---
-        {content_source[:4000]}
-        ---
+**Video Title:** {video_data.get('title')}
+**Channel:** {video_data.get('channel_name')}
+**Content Source (from {source_type}):**
+---
+{content_source[:4000]}
+---
 
-        **Instructions:**
-        1.  Use the video title as the main heading.
-        2.  Provide a one-paragraph overview of the video's main topic.
-        3.  Create a bulleted list of the most important key takeaways or highlights from the video. Aim for 5-7 points.
-        4.  Keep the language clear and direct.
-        5.  The final output must be a single, complete summary in Markdown format.
-        """
+**Instructions:**
+1. Use the video title as the main heading.
+2. Write a one-paragraph overview explaining the main idea and purpose of the video.
+3. Provide a bulleted list of the 6–10 most important insights, lessons, or events.
+4. Keep the language simple, clear, and direct.
+5. Deliver the final result as a complete Markdown summary.
+"""
         return system_prompt, user_prompt
