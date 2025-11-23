@@ -1,16 +1,15 @@
 # 🎥 YouTube to Blog Converter - AI-Powered Content Transformation
 
-[![Made with Bolt](https://img.shields.io/badge/Made%20with-Bolt-blue)](https://bolt.new)
 [![Python](https://img.shields.io/badge/Python-3.8+-brightgreen)](https://python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-Latest-teal)](https://fastapi.tiangolo.com/)
 [![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-blue)](https://tailwindcss.com/)
 
-> 🏆 **Bolt.new World's Largest Hackathon Project** - Transform any YouTube video into professionally formatted blog posts using advanced AI technology. Perfect for content creators, marketers, and bloggers who want to repurpose video content efficiently.
+
 
 ## 🎯 Project Overview
 
-This application leverages cutting-edge AI and video processing technologies to automatically convert YouTube videos into well-structured, engaging blog posts. Built during the world's largest hackathon on Bolt.new, it demonstrates the power of AI-driven content transformation with an exceptional user experience.
+This application leverages cutting-edge AI and video processing technologies to automatically convert YouTube videos into well-structured, engaging blog posts.
 
 ## ✨ Features
 
@@ -52,7 +51,6 @@ youtube-to-blog-converter/
 ├── utils/                  # Utility modules
 │   └── blog_generator.py   # Blog content generation logic
 ├── public/                 # Static assets
-│   └── boltlofo.png       # Bolt.new logo
 ├── index.html             # Frontend application
 ├── requirements.txt       # Python dependencies
 ├── run_server.py         # Server startup script
@@ -246,8 +244,6 @@ This hackathon project welcomes contributions! Here's how you can help:
 MIT License - see [LICENSE](LICENSE) file for details
 
 ## 🙏 Acknowledgments
-
-- **Bolt.new** - For hosting the world's largest hackathon and providing an incredible development platform
 - **Nebius AI Studio** - For powerful language model access
 - **FastAPI Team** - For the excellent async web framework
 - **YouTube/Google** - For comprehensive video platform APIs
@@ -256,10 +252,3 @@ MIT License - see [LICENSE](LICENSE) file for details
 
 ---
 
-<div align="center">
-
-**Made with ❤️ using [Bolt.new](https://bolt.new) during the World's Largest Hackathon**
-
-*Transforming video content into engaging blogs, one URL at a time* 🎥➡️📰
-
-</div>
